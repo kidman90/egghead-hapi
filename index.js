@@ -4,36 +4,37 @@ const Hapi = require('hapi');
 const server = new Hapi.Server();
 server.connection({
   host: 'localhost',
-  port: 8000
+  port: 8000,
 });
 
-let options = {
+const options = {
   // set up logging
   reporters: {
     myConsoleReporter: [{
       module: 'good-console',
       // only listen to log and response events
-      args: [{ log: '*', response: '*'}]
-    }, 'stdout']
-  }
-}
+      args: [{ log: '*', response: '*' }],
+    }, 'stdout'],
+  },
+};
 
 // register plugins
 server.register({
   register: require('good'),
   options,
 // register takes callback as the last argument
-}, err => {
+}, (err) => {
+  if (err) { return console.error(err); }
 
   // every route needs method, path, handler
   server.route({
     method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      reply('hello hapi')
-    }
-  })
+      reply('hello hapi');
+    },
+  });
 
   // start server
-  server.start(() => console.log(`Started at: ${server.info.uri}`))
-})
+  server.start(() => console.log(`Started at: ${server.info.uri}`));
+});
