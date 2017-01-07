@@ -31,7 +31,22 @@ server.register({
     method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      reply('hello hapi');
+      const resp = reply('hello hapi');
+      console.log('statusCode: ', resp.statusCode)
+      console.log('headers: ', resp.headers)
+
+      // code() sets the status code
+      resp.code(418)
+
+      // type() sets mime type
+      resp.type('text/plain')
+
+      // header(key, value) sets header
+      resp.header('hello', 'world')
+
+      // state(key, value) sends cookie
+      resp.state('hello', 'world')
+
     },
   });
 
