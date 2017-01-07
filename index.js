@@ -30,13 +30,9 @@ server.register({
     method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      server.log('error', 'boom!');
-      server.log('info', 'yay!');
-      reply('hello hapi');
+      reply('hello hapi')
     }
   })
-
-  if (err) { return console.error(err); }
 
   // start server
   server.start(() => console.log(`Started at: ${server.info.uri}`))
