@@ -7,14 +7,35 @@ server.connection({
   port: 8000
 });
 
-// every route needs method, path, handler
-server.route({
-  method: 'GET',
-  path: '/',
-  handler: (request, reply) => {
-    reply('hello hapi')
+let options = {
+  // set up logging
+  reporters: {
+    myConsoleReporter: [{
+      module: 'good-console',
+      // only listen to log and response events
+      args: [{ log: '*', response: '*'}]
+    }, 'stdout']
   }
-})
+}
 
-// start server
-server.start(() => console.log(`Started at: ${server.info.uri}`))
+// register plugins
+server.register({
+  register: require('good'),
+  options,
+// register takes callback as the last argument
+}, err => {
+
+  // every route needs method, path, handler
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: (request, reply) => {
+      reply('hello hapi')
+    }
+  })
+
+  if (err) { return console.error(err); }
+
+  // start server
+  server.start(() => console.log(`Started at: ${server.info.uri}`))
+})
