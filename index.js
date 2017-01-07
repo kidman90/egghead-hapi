@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Path = require('path');
 
 // setup server
 const server = new Hapi.Server();
@@ -7,7 +8,7 @@ server.connection({
   port: 8000,
 });
 
-const options = {
+const goodOptions = {
   // set up logging
   reporters: {
     myConsoleReporter: [{
@@ -22,7 +23,10 @@ const options = {
 server.register([
   {
     register: require('good'),
-    options,
+    goodOptions,
+  },
+  {
+    register: require('inert'),
   },
 ],
 // register takes callback as the last argument
@@ -35,6 +39,37 @@ server.register([
     path: '/',
     handler: (request, reply) => {
       reply('hello hapi');
+    },
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/static',
+    handler: (request, reply) => {
+      const path = Path.join(__dirname, 'public/style.css');
+      reply.file(path);
+    },
+  });
+
+  // inert has custom route handler for serving a file
+  server.route({
+    method: 'GET',
+    path: '/static-file',
+    handler: {
+      file: Path.join(__dirname, 'public/style.css'),
+    },
+  });
+
+
+  // inert has custom route handler for serving a directory
+  // {param*} matches the name a file in the directory
+  server.route({
+    method: 'GET',
+    path: '/static-directory/{param*}',
+    handler: {
+      directory: {
+        path: Path.join(__dirname, 'public'),
+      },
     },
   });
 

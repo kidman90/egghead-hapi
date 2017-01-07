@@ -12,6 +12,7 @@
   "dependencies": {
     "good": "^7.1.0",
     "good-console": "^6.2.0",
-    "hapi": "^16.1.0"
+    "hapi": "^16.1.0",
+    "inert": "^4.1.0"
   }
 }
