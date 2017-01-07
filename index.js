@@ -35,6 +35,47 @@ server.register({
     },
   });
 
+  function handler(request, reply) {
+    reply(request.params);
+  }
+
+  // {} for params
+  server.route({
+    method: 'GET',
+    // ? for optional params; optional must come last
+    // both /users and /users/id will work
+    path: '/users/{id?}',
+    handler,
+  });
+
+  server.route({
+    method: 'GET',
+    // params don't have to be the last segment
+    path: '/books/{id}/files',
+    handler,
+  });
+
+  server.route({
+    method: 'GET',
+    // * wildcard matches unlimited number of segments
+    path: '/files/{anything*}',
+    handler,
+  });
+
+  server.route({
+    method: 'GET',
+    // * number: matches x number of segments
+    path: '/cats/{anything*2}',
+    handler,
+  });
+
+  server.route({
+    method: 'GET',
+    // partial segments
+    path: '/dogs/{file}.jpg',
+    handler,
+  });
+
   // start server
   server.start(() => console.log(`Started at: ${server.info.uri}`));
 });
