@@ -29,49 +29,14 @@ server.register([
 (err) => {
   if (err) { return console.error(err); }
 
+  // every route needs method, path, handler
   server.route({
-    method: ['POST', 'PUT'],
+    method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      // request.payload is where hapi places the content of the request body
-      reply(request.payload);
+      reply('hello hapi');
     },
   });
-
-  server.route({
-    method: ['POST', 'PUT'],
-    path: '/parse',
-    config: {
-      payload: {
-        output: 'data',
-        // don't automatically parse the payload data
-        parse: false,
-      },
-    },
-    handler: (request, reply) => {
-      // request.payload is where hapi places the content of the request body
-      reply(request.payload);
-    },
-  });
-
-  server.route({
-    method: ['POST', 'PUT'],
-    path: '/allow',
-    config: {
-      payload: {
-        output: 'data',
-        // don't automatically parse the payload data
-        parse: false,
-        // only allow json
-        allow: 'application/json'
-      },
-    },
-    handler: (request, reply) => {
-      // request.payload is where hapi places the content of the request body
-      reply(request.payload);
-    },
-  });
-
 
   // start server
   server.start(() => console.log(`Started at: ${server.info.uri}`));
