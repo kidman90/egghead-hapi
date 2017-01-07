@@ -19,11 +19,14 @@ const options = {
 };
 
 // register plugins
-server.register({
-  register: require('good'),
-  options,
+server.register([
+  {
+    register: require('good'),
+    options,
+  },
+],
 // register takes callback as the last argument
-}, (err) => {
+(err) => {
   if (err) { return console.error(err); }
 
   // every route needs method, path, handler
