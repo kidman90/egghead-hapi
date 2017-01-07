@@ -30,7 +30,9 @@ server.register({
     method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      reply('hello hapi')
+      server.log('error', 'boom!');
+      server.log('info', 'yay!');
+      reply('hello hapi');
     }
   })
 
